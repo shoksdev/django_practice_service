@@ -10,3 +10,6 @@ class CustomUser(AbstractUser):
     full_name = models.CharField(max_length=255, verbose_name='ФИО', validators=[full_name_validator],
                                  help_text=_('Required. 255 characters or fewer. Letters, hyphens and spaces'))
     email = models.EmailField(_("email address"))
+
+    def __str__(self):
+        return self.username

@@ -1,8 +1,28 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView
 
 from .forms import RegistrationUserForm
+from main.models import Application
+
+
+class ProfileView(ListView, LoginRequiredMixin):
+    context_object_name = 'application_list'
+    template_name = 'users/profile.html'
+
+    def get_queryset(self):
+        return Application.objects.filter(owner=self.request.user)
+
+
+class LoginView(LoginView):
+    template_name = 'users/login.html'
+    success_url = reverse_lazy('profile')
+
+
+class LogoutView(LogoutView):
+    template_name = 'users/logout.html'
 
 
 class RegistrationView(CreateView):

@@ -17,11 +17,12 @@
     </header>
     <div class="row">
         <ul class="col nav justify-content-end border">
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Главная</a></li>
             {% if user.is_authenticated %}
-            <li class="nav-item"><a class="nav-link" href="#">Выход</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Выход</a></li>
             {% else %}
             <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Регистрация</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Вход</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Вход</a></li>
             {% endif %}
         </ul>
     </div>
