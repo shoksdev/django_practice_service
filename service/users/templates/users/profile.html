@@ -6,13 +6,39 @@
 {% block content %}
     <h2>Профиль пользователя {{ request.user.username }}</h2>
     <p>Здравствуйте, {{ request.user.full_name }}!</p>
-    {% if application_list %}
-    <h2>Ваши заявки:</h2>
-        {% for application in application_list %}
-            <p>Название: {{ application.title }}</p>
-            <p>Описание: {{ application.description }}</p>
-            <p>Категория: {{ application.category }}</p>
-            <p>Фото помещения или план: <img class="mr-3" src="{{ application.image.url }}"></p>
+    {% if applications_list %}
+        <form action="{% url 'profile_filter' %}" method="get" name="filter">
+          <h3>Статус заявки:</h3>
+            <div>
+                <select class="form-select w-25" name="status">
+                    <option value="Н">Новая</option>
+                    <option value="П">Принято в работу</option>
+                    <option value="В">Выполнено</option>
+                </select>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Отфильтровать</button>
+        </form>
+        <br>
+        <a href="{% url 'profile' %}" class="btn btn-primary">Очистить фильтр</a>
+        <br>
+        <h2>Ваши заявки:</h2>
+        {% for application in applications_list %}
+            <p>Временная метка: {{ application.created }}</p>
+            <p>Название заявки: {{ application.title }}</p>
+            <p>Описание заявки: {{ application.description }}</p>
+            <p>Категория заявки: {{ application.category }}</p>
+            <p>Статус заявки: {{ application.get_status_display }}</p>
+            {% if application.status == 'Н' %}
+                <a href="{% url 'application_delete' pk=application.id %}" class="btn btn-primary">Удалить</a>
+            {% elif application.status == 'П' %}
+                <p><i>Вы не можете удалить эту заявку, потому что она находится в работе.</i></p>
+            {% else %}
+                <p><i>Вы не можете удалить эту заявку, потому что она выполнена.</i></p>
+            {% endif %}
+            <br>
         {% endfor %}
+    {% else %}
+        <p>В данный момент у вас нет заявок.</p>
     {% endif %}
 {% endblock %}

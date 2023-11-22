@@ -9,11 +9,19 @@ from main.models import Application
 
 
 class ProfileView(ListView, LoginRequiredMixin):
-    context_object_name = 'application_list'
+    context_object_name = 'applications_list'
     template_name = 'users/profile.html'
 
     def get_queryset(self):
         return Application.objects.filter(owner=self.request.user)
+
+
+class ProfileFilterView(ListView, LoginRequiredMixin):
+    context_object_name = 'applications_list'
+    template_name = 'users/profile.html'
+
+    def get_queryset(self):
+        return Application.objects.filter(owner=self.request.user, status=self.request.GET.get('status')[0])
 
 
 class LoginView(LoginView):

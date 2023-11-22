@@ -12,11 +12,21 @@ class Category(models.Model):
 
 
 class Application(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Название')
+    STATUS_CHOICES = [
+        ('Н', 'Новая'),
+        ('П', 'Принято в работу'),
+        ('В', 'Выполнено')
+    ]
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Временная метка')
+    title = models.CharField(max_length=80, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
     image = models.ImageField(upload_to='images/', verbose_name='Фото помещения или план')
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0], verbose_name='Статус')
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Владелец')
+
+    class Meta:
+        ordering = ('-created',)
 
     def __str__(self):
         return self.title

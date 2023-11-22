@@ -3,5 +3,30 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-<h2>Приветствуем вас на главной странице нашей дизайн-студии!</h2>
+<h1>Главная страница</h1>
+
+  <h2>Приветствуем вас на главной странице нашей дизайн-студии!</h2>
+
+  {% if applications_list %}
+    <p>Список последних выполненных заявок:</p>
+    <ul>
+      {%for application in applications_list %}
+          <li>Временная метка: {{ application.created }};</li>
+          <li>Название: {{ application.title }};</li>
+          <li>Категория заявки: {{ application.category }};</li>
+          <li>Фотография: <img src="{{ application.image.url }}" alt="Фото или план помещения" class="w-10"></li>
+        <br>
+      {% endfor %}
+    </ul>
+    {% else %}
+        <p>В данный момент нет выполненных заявок.</p>
+  {% endif %}
+  <p>
+    Количество заявок, принятых в работу:
+    {% if applications_counter %}
+      {{ applications_counter }}
+    {% else %}
+    0
+    {% endif %}
+  </p>
 {% endblock %}
