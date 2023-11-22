@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Application
+from .models import Application, Category
 
 
 class ApplicationForm(forms.ModelForm):
@@ -19,4 +19,26 @@ class ApplicationForm(forms.ModelForm):
 
     class Meta:
         model = Application
-        fields = ('title', 'description', 'category', 'image', )
+        fields = ('title', 'description', 'category', 'image',)
+
+
+class ApplicationDoneForm(forms.ModelForm):
+    image_created = forms.ImageField(label='Созданный дизайн', required=True)
+
+    class Meta:
+        model = Application
+        fields = ('image_created',)
+
+
+class ApplicationInWorkForm(forms.ModelForm):
+    comment = forms.CharField(label='Комментарий', widget=forms.Textarea, required=True)
+
+    class Meta:
+        model = Application
+        fields = ('comment',)
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('title', 'description', )

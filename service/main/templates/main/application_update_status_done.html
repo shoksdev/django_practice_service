@@ -1,0 +1,14 @@
+{% extends "layout/base.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Изменение статуса заявки на "Выполнено"{% endblock %}
+
+{% block content %}
+    <h3>Изменение статуса заявки на "Выполнено"!</h3>
+    <p>Название заявки для изменения: {{ application.title }}</p>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form layout='horizontal' %}
+        {% buttons submit='Изменить' %}{% endbuttons %}
+    </form>
+{% endblock %}

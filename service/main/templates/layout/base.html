@@ -23,6 +23,10 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Выход</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Профиль</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'application_create' %}">Создать заявку</a></li>
+                {% if user.is_staff %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'applications_list' %}">Все заявки</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'categories_list' %}">Все категории</a></li>
+                {% endif %}
             {% else %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'registration' %}">Регистрация</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Вход</a></li>
